@@ -1,0 +1,17 @@
+
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST:-host.docker.internal}
+      - MYSQL_PORT=${MYSQL_PORT:-3306}
+      - MYSQL_USER=${MYSQL_USER:-root}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-quizelevate}
+    volumes:
+      - ./backend:/app
+# NOTE: This compose file assumes your MySQL server is already running and accessible.
+# For local dev on Windows/Mac, host.docker.internal points to host machine where MySQL runs.
