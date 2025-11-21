@@ -1,0 +1,56 @@
+<div class="auth-container">
+
+  <div class="left-panel">
+    <spline-viewer url="https://prod.spline.design/QRMnWbrfhb34D5LY/scene.splinecode"></spline-viewer>
+  </div>
+
+  <div class="right-panel">
+    <div class="card" id="card">
+
+      <!-- LOGIN FORM -->
+      <div class="form-box" id="loginForm">
+        <h2>Welcome Back</h2>
+
+        <!-- Email -->
+        <div class="input-box">
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Email"
+            required
+            autocomplete="email"
+          />
+          <i class="bx bxs-envelope"></i>
+        </div>
+
+        <!-- Password -->
+        <div class="input-box">
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Password"
+            required
+            autocomplete="current-password"
+          />
+          <i class="bx bxs-lock-alt"></i>
+        </div>
+
+        <!-- LOGIN BUTTON -->
+        <button class="btn" (click)="login()">Sign In</button>
+
+        <!-- Forgot Password -->
+        <div class="toggle" id="forgotBtn">Forgot Password?</div>
+
+        <!-- Route to Sign Up -->
+        <div class="toggle">
+          Don’t have an account?
+          <a routerLink="/signup" class="signup-btn">Sign Up</a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="auth-container">
+  <div class="right-panel">
+    <div class="card">
+      <div class="form-box">
+        <h2>Create Account</h2>
+
+        <!-- IMPORTANT: Pass the form reference to onSubmit(form) -->
+        <form (ngSubmit)="onSubmit(signupForm)" #signupForm="ngForm">
+
+          <!-- Full Name -->
+          <div class="input-box">
+            <input
+              type="text"
+              name="name"
+              [(ngModel)]="user.name"
+              placeholder="Full Name"
+              required
+              autocomplete="name"
+            />
+            <i class="bx bx-user"></i>
+          </div>
+
+          <!-- School Name -->
+          <div class="input-box">
+            <input
+              type="text"
+              name="schoolname"
+              [(ngModel)]="user.schoolname"
+              placeholder="School Name"
+              required
+              autocomplete="organization"
+            />
+            <i class="bx bx-school"></i>
+          </div>
+
+          <!-- School Code -->
+          <div class="input-box">
+            <input
+              type="text"
+              name="schoolcode"
+              [(ngModel)]="user.schoolcode"
+              placeholder="School Code"
+              required
+              autocomplete="off"
+            />
+            <i class="bx bx-id-card"></i>
+          </div>
+
+          <!-- Email -->
+          <div class="input-box">
+            <input
+              type="email"
+              name="email"
+              [(ngModel)]="user.email"
+              placeholder="Email"
+              required
+              autocomplete="email"
+            />
+            <i class="bx bx-envelope"></i>
+          </div>
+
+          <!-- Password -->
+          <div class="input-box">
+            <input
+              type="password"
+              name="password"
+              [(ngModel)]="user.password"
+              placeholder="Password"
+              required
+              autocomplete="new-password"
+            />
+            <i class="bx bx-lock"></i>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="input-box">
+            <input
+              type="password"
+              name="confirmPassword"
+              [(ngModel)]="user.confirmPassword"
+              placeholder="Confirm Password"
+              required
+              autocomplete="new-password"
+            />
+            <i class="bx bx-check-shield"></i>
+          </div>
+
+          <button type="submit" class="btn">Sign Up</button>
+        </form>
+
+        <div class="toggle">
+          Already have an account?
+          <a routerLink="/">Sign In</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -132,13 +132,24 @@ spline-viewer {
   font-size: 15px;
   cursor: pointer;
   color: #ff7b00;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .toggle:hover {
-  color: #ff5500;
+  color: black;
 }
 
 .hidden {
   display: none;
+}
+.signup-btn {
+
+  color: #ff7b00;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: 0.2s ease-in-out;
+}
+.signup-btn:hover {
+  color: black;
 }

@@ -5,3 +5,8 @@ python-dotenv
 Flask-JWT-Extended
 Flask-Migrate
 requests
+python-dotenv
+mysql-connector-python 
+werkzeug
+flask
+flask-cors

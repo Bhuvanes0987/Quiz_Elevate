@@ -1,0 +1,141 @@
+@import url("https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.auth-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(270deg, #ff7b00, #ffb347, #ff7b00);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  overflow: hidden;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Left Panel */
+.left-panel {
+  flex: 1.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+spline-viewer {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent !important;
+}
+
+/* Right Panel */
+.right-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.card {
+  width: 450px;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 20px;
+  padding: 35px;
+  box-shadow: 0 10px 25px rgba(255, 123, 0, 0.35);
+  text-align: center;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.form-box h2 {
+  color: #ff7b00;
+  font-size: 2rem;
+  margin-bottom: 25px;
+  font-weight: 700;
+}
+
+.input-box {
+  position: relative;
+  margin: 15px 0;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 15px 45px 15px 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  transition: 0.3s;
+  font-size: 1rem;
+}
+
+.input-box input:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 12px rgba(255, 123, 0, 0.3);
+  outline: none;
+}
+
+.input-box i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff7b00;
+  font-size: 1.2rem;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ff7b00, #ff9a33);
+  color: #fff;
+  border: none;
+  outline: none;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  margin-top: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 123, 0, 0.4);
+}
+
+/* Toggle */
+.toggle {
+  margin-top: 18px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #ff7b00;
+  text-decoration: underline;
+  transition: 0.3s;
+}
+
+.toggle:hover {
+  color: #ff5500;
+}

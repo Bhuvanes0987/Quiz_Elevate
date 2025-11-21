@@ -147,6 +147,8 @@ coverage.xml
 *.temp
 /.cache/
 /.angular/
+node_modules/
+dist/
 /coverage/
 
 # Node
