@@ -139,3 +139,41 @@ spline-viewer {
 .toggle:hover {
   color: #ff5500;
 }
+/* Match select with input styling */
+.input-box select {
+  width: 100%;
+  padding: 15px 45px 15px 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  transition: 0.3s;
+  font-size: 1rem;
+  background-color: white;
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* Focus effect like input */
+.input-box select:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 12px rgba(255, 123, 0, 0.3);
+  outline: none;
+}
+
+/* Icon position stays same */
+.input-box i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ff7b00;
+  font-size: 1.2rem;
+}
+
+/* Add fake dropdown arrow using background image or CSS */
+.input-box select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='orange' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 20px;
+}

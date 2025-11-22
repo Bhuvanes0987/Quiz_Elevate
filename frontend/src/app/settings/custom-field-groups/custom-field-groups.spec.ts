@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginPage } from './login';
+import { CustomFieldGroups } from './custom-field-groups';
 
-describe('LoginPage', () => {
-  let component: LoginPage;
-  let fixture: ComponentFixture<LoginPage>;
+describe('CustomFieldGroups', () => {
+  let component: CustomFieldGroups;
+  let fixture: ComponentFixture<CustomFieldGroups>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginPage]
+      imports: [CustomFieldGroups]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginPage);
+    fixture = TestBed.createComponent(CustomFieldGroups);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

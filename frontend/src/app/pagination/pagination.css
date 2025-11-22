@@ -1,0 +1,18 @@
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.pagination-wrapper button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.pagination-wrapper button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

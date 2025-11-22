@@ -70,6 +70,7 @@ export class SignupComponent {
 
   user = {
     name: '',
+    studentClass: '',
     schoolname: '',
     schoolcode: '',
     email: '',
@@ -93,6 +94,7 @@ export class SignupComponent {
 
     const signupData = {
       name: this.user.name,
+      studentClass: this.user.studentClass,
       schoolname: this.user.schoolname,
       schoolcode: this.user.schoolcode,
       email: this.user.email,

@@ -1,0 +1,11 @@
+<div class="pagination-wrapper">
+  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">
+    ‹ Prev
+  </button>
+
+  <span>Page {{ currentPage }} / {{ totalPages }}</span>
+
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">
+    Next ›
+  </button>
+</div>

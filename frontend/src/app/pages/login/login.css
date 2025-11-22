@@ -28,13 +28,9 @@
   }
 }
 
-/* Left Panel */
 .left-panel {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+  width: 50%;
+  height: 100vh;
 }
 
 spline-viewer {

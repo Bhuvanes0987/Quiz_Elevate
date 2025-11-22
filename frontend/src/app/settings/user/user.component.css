@@ -1,0 +1,152 @@
+/* ============= HEADER ============= */
+.users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.users-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.add-user {
+  background: #4CAF50;
+  color: black;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.add-user:hover {
+  background: #43a047;
+  
+}
+
+/* ============= TOP BAR ============= */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.top-bar input[type="text"] {
+  padding: 6px 10px;
+  width: 240px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.primary-only {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  gap: 12px;
+}
+
+.actions a {
+  cursor: pointer;
+  color: #007bff;
+  font-size: 14px;
+}
+
+.actions a:hover {
+  text-decoration: underline;
+}
+
+/* ============= FILTERS ============= */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filters select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 140px;
+}
+
+/* ============= TABLE ============= */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 14px;
+  color: black;
+}
+
+.user-table th {
+  background: #f8f8f8;
+  font-weight: 600;
+}
+
+.user-table tr:hover {
+  background: #f3f7ff;
+}
+
+.user-table input[type="checkbox"] {
+  transform: scale(1.1);
+}
+
+/* ============= FOOTER ============= */
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding: 8px 4px;
+}
+
+.rows-per-page {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rows-per-page select {
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .actions {
+    margin-left: 0;
+  }
+
+  .filters {
+    flex-direction: column;
+  }
+}

@@ -27,13 +27,14 @@ def signup():
         data = request.get_json()
 
         name = data.get('name')
+        student_class = data.get("studentClass")
         school_name = data.get('schoolname')
         school_code = data.get('schoolcode')
         email = data.get('email')
         password = data.get('password')   # STORE AS-IS (PLAIN)
 
         # Validate fields
-        if not all([name, school_name, school_code, email, password]):
+        if not all([name, student_class, school_name, school_code, email, password]):
             return jsonify({"message": "All fields are required"}), 400
 
         conn = get_db_connection()
@@ -44,12 +45,19 @@ def signup():
         if cursor.fetchone():
             return jsonify({"message": "Email already registered"}), 409
 
-        # Insert new user - PASSWORD IS STORED AS ORIGINAL
+       # Insert new user
         insert_query = """
-            INSERT INTO users (name, school_name, school_code, email, password)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO users (name, student_Class, school_name, school_code, email, password)
+            VALUES (%s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(insert_query, (name, school_name, school_code, email, password))
+        cursor.execute(insert_query, (
+            name,
+            student_class,
+            school_name,
+            school_code,
+            email,
+            password
+        ))
         conn.commit()
 
         return jsonify({"message": "Signup successful!"}), 201

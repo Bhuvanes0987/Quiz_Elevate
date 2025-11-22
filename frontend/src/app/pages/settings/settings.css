@@ -1,0 +1,79 @@
+.settings-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(270deg, #ff7b00, #ffb347, #ff7b00);
+  background-size: 400% 400%;
+  animation: gradientMove 10s ease infinite;
+  overflow: hidden;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid rgba(255,255,255,0.2);
+}
+
+.sidebar-title {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Menu Items */
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 16px;
+}
+
+.menu li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.menu li.active {
+  background: rgba(0, 0, 0, 0.4);
+  font-weight: bold;
+  border-left: 4px solid #ffffff;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.content h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

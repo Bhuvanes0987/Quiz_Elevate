@@ -6,15 +6,18 @@
       <span class="nav-logo">logo</span>
 
       <ul class="nav-menu">
-        <li>Home</li>
-        <li>Instructions</li>
-        <li>Payments</li>
-        <li>Contact Us</li>
-      </ul>
+    <li (click)="goTo('/home')" routerLinkActive="active">Home</li>
+    <li (click)="goTo('/instructions')" routerLinkActive="active">Instructions</li>
+    <li (click)="goTo('/payments')" routerLinkActive="active">Payments</li>
+    <li (click)="goTo('/contact-us')" routerLinkActive="active">Contact Us</li>
+
+    </ul>
+
+
     </div>
 
     <div class="nav-right">
-      <span class="settings-icon">⚙</span>
+      <span class="settings-icon" (click)="goTo('/settings')">⚙</span>
 
       <div class="profile-icon">s
         {{ userInitials }}
@@ -34,13 +37,13 @@
   </div>
   <!-- RIGHT SIDE AD -->
     <div class="right-ad">
-      <img src="assets/right-ad.png" alt="Ad">
+      <img src="" alt="Ad">
     </div>
   </div>
 
   <!-- BOTTOM AD -->
   <div class="bottom-ad">
-    <img src="assets/bottom-ad.png" alt="Ad">
+    <img src="" alt="Ad">
   </div>
 
 
