@@ -7,16 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private baseUrl = 'http://localhost:8000/api/users'; // change if needed
+private baseUrl = 'http://localhost:8000/users';
 
   constructor(private http: HttpClient) {}
 
-  getUsers(page: number, limit: number, search: string): Observable<any> {
-    let params = new HttpParams()
-      .set('page', page)
-      .set('limit', limit)
-      .set('search', search);
-
-    return this.http.get<any>(this.baseUrl, { params });
+  getUsers(): Observable<any> {
+    return this.http.get<any>(this.baseUrl);
   }
+  // Soft delete user by setting is_active = 0
+softDeleteUser(userId: number): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/${userId}/delete`, {}); 
+}
+
 }

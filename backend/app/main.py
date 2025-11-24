@@ -221,6 +221,7 @@ from .routes.signup_routes import bp as signup_bp
 from flask_migrate import Migrate
 import os
 from app.routes.login_routes import bp_login
+from app.settings.users import users_bp
 
 
 def create_app():
@@ -250,6 +251,7 @@ def create_app():
     app.register_blueprint(analytics_bp)
     app.register_blueprint(signup_bp)
     app.register_blueprint(bp_login)
+    app.register_blueprint(users_bp)
 
     return app
 
