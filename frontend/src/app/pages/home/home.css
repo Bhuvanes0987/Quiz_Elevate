@@ -16,7 +16,7 @@
 
   background: linear-gradient(270deg, #ff7b00, #ffb347, #ff7b00);
   background-size: 400% 400%;
-  animation: gradientMove 10s ease infinite;
+  /* animation: gradientMove 10s ease infinite; */
 
   padding: 0 70px; 
   color: white;
@@ -118,7 +118,7 @@
 
   background: linear-gradient(270deg, #ff7b00, #ffb347, #ff7b00);
   background-size: 400% 400%;
-  animation: gradientMove 10s ease infinite;
+  /* animation: gradientMove 10s ease infinite; */
   color: white;
 }
 

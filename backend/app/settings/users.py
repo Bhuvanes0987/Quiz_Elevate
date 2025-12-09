@@ -173,7 +173,7 @@
 
 
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 import mysql.connector
 import os
 from dotenv import load_dotenv
@@ -244,4 +244,118 @@ def soft_delete_user(user_id):
         conn.close()
         return jsonify({"message": "User soft-deleted successfully"}), 200
     except mysql.connector.Error as err:
+        return jsonify({"error": str(err)}), 500
+    
+@users_bp.route("/users/<int:user_id>", methods=["PUT"])
+def update_user(user_id):
+    try:
+        data = request.json
+        conn = get_db()
+        cursor = conn.cursor()
+
+        # Build the update query with only provided fields
+        update_fields = []
+        params = []
+
+        # Map expected fields from request JSON to DB columns
+        field_map = {
+            "name": "name",
+            "email": "email",
+            "phone": "phone",
+            "position": "position_id",  # position is a foreign key
+            "student_class": "student_class",
+            "school_name": "school_name",
+            "school_code": "school_code",
+            # Add updated_by if you track user updates, e.g. 'updated_by'
+        }
+
+        # Convert position name to position_id if position provided
+        position_id = None
+        if "position" in data:
+            pos_name = data.get("position")
+            if pos_name:
+                # Lookup position_id by name
+                cursor.execute("SELECT id FROM positions WHERE name = %s", (pos_name,))
+                pos_result = cursor.fetchone()
+                if pos_result:
+                    position_id = pos_result[0]
+                else:
+                    # If position not found, insert new? Or set NULL? Here we set NULL
+                    position_id = None
+
+        for key, column in field_map.items():
+            if key in data:
+                if key == "position":
+                    update_fields.append(f"{column} = %s")
+                    params.append(position_id)
+                else:
+                    update_fields.append(f"{column} = %s")
+                    params.append(data[key])
+
+        if not update_fields:
+            return jsonify({"error": "No fields to update"}), 400
+
+        # Add updated_at timestamp
+        update_fields.append("updated_at = NOW()")
+
+        # Construct the final SQL query
+        query = f"UPDATE users SET {', '.join(update_fields)} WHERE id = %s AND is_active = 1"
+        params.append(user_id)
+
+        cursor.execute(query, params)
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({"message": "User updated successfully"}), 200
+
+    except mysql.connector.Error as err:
+        print("MySQL Error:", err)
+        return jsonify({"error": str(err)}), 500
+
+@users_bp.route("/users", methods=["POST"])
+def add_user():
+    try:
+        data = request.json
+        conn = get_db()
+        cursor = conn.cursor()
+
+        # Handle position_id (foreign key)
+        position_id = None
+        if "position" in data and data["position"]:
+            cursor.execute("SELECT id FROM positions WHERE name = %s", (data["position"],))
+            pos_result = cursor.fetchone()
+            if pos_result:
+                position_id = pos_result[0]
+
+        default_password = "Balaji@123"
+
+        # Insert new user
+        insert_query = """
+            INSERT INTO users 
+            (name, email, phone, student_class, school_name, school_code, position_id, password, created_at, is_active)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), 1)
+        """
+
+        cursor.execute(insert_query, (
+            data.get("name"),
+            data.get("email"),
+            data.get("phone"),
+            data.get("student_class"),
+            data.get("school_name"),
+            data.get("school_code"),
+            position_id,
+            default_password 
+        ))
+        conn.commit()
+
+        user_id = cursor.lastrowid
+        cursor.close()
+        conn.close()
+
+        return jsonify({"message": "User added successfully", "user_id": user_id}), 201
+
+    except mysql.connector.Error as err:
+        print("MySQL Error:", err)
         return jsonify({"error": str(err)}), 500

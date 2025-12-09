@@ -1,0 +1,177 @@
+
+.page-container {
+  padding: 24px;
+  background: #fff;
+  min-height: 80vh;
+  position: relative;
+}
+
+/* header */
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.add-btn {
+  background: #0b5cff;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* search */
+.search-container input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  margin-bottom: 12px;
+}
+
+/* table */
+.question-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.question-table thead th {
+  text-align: left;
+  padding: 10px;
+  background: #f5f7fa;
+  color: #666;
+  font-weight: 600;
+}
+
+.question-table td {
+  padding: 12px;
+  border-bottom: 1px solid #efefef;
+}
+
+.actions button {
+  margin-right: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit { background: #27ae60; color: #fff; }
+.delete { background: #e74c3c; color: #fff; }
+
+.no-data {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+
+/* SIDE PANEL */
+.side-panel {
+  position: fixed;
+  top: 64px; /* adjust to your header height so it sits inside main container visually */
+  right: -520px;
+  width: 480px;
+  max-width: 90%;
+  height: calc(100% - 80px);
+  background: #fff;
+  box-shadow: -8px 0 30px rgba(0,0,0,0.15);
+  transition: right 0.28s ease;
+  z-index: 1500;
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.side-panel.open {
+  right: 24px; /* visible inside container */
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* form inputs */
+.panel-body label {
+  display: block;
+  margin-top: 8px;
+  color: #333;
+  font-weight: 600;
+}
+.panel-body input,
+.panel-body textarea,
+.panel-body select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.panel-body textarea {
+  min-height: 80px;
+}
+
+/* small controls */
+.mini {
+  margin-left: 8px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #efefef;
+  border: none;
+  cursor: pointer;
+}
+
+.option-row,
+.match-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.option-row input,
+.match-row input {
+  flex: 1;
+}
+
+/* preview image */
+.preview img {
+  width: 100%;
+  margin-top: 8px;
+  border-radius: 6px;
+}
+
+/* actions */
+.panel-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.save {
+  background: #0b5cff;
+  color: #fff;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+}
+
+.cancel {
+  background: #f2f2f2;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+}

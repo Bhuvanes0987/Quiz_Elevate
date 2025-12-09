@@ -18,5 +18,12 @@ private baseUrl = 'http://localhost:8000/users';
 softDeleteUser(userId: number): Observable<any> {
   return this.http.put<any>(`${this.baseUrl}/${userId}/delete`, {}); 
 }
+ updateUser(userId: number, userData: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${userId}`, userData);
+  }
+// Add this inside user.service.ts
+addUser(userData: any): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}`, userData);
+}
 
 }

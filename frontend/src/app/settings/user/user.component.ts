@@ -76,6 +76,9 @@ export class UserComponent implements OnInit {
 
   // Search text if needed
   searchText: string = '';
+  selectedUser: any = null;
+  isNewUser: boolean = false;
+
 
   constructor(private userService: UserService) {}
 
@@ -83,16 +86,16 @@ export class UserComponent implements OnInit {
     this.loadUsers();
   }
 
-  // Load all users
-  loadUsers(): void {
-    this.userService.getUsers().subscribe((res: any) => {
-      // Assuming your backend returns an array directly
-      this.users = res; 
+loadUsers(): void {
+  this.userService.getUsers().subscribe({
+    next: (res: any) => {
+      console.log('Users loaded:', res);  // check this output in console
+      this.users = res;
       this.filteredUsers = res;
-      // If your backend returns { data: [...], total: ... }, use:
-      // this.users = res.data;
-    });
-  }
+    },
+    error: (err) => console.error('Error loading users', err)
+  });
+}
    filterUsers(): void {
     const search = this.searchText.toLowerCase();
 
@@ -124,9 +127,57 @@ deleteUser(userId: number): void {
 
 // Optional: edit function placeholder
 editUser(user: any): void {
-  // Implement your edit modal or navigation here
+   this.selectedUser = { ...user };
   console.log("Edit user", user);
 }
+openAddUserForm(): void {
+  this.selectedUser = {
+    name: '',
+    email: '',
+    phone: '',
+    position: '',
+    student_class: '',
+    school_name: '',
+    school_code: ''
+  };
+  this.isNewUser = true;
+}
 
+// Save user (create or update)
+saveUser(): void {
+  if (this.isNewUser) {
+    this.userService.addUser(this.selectedUser).subscribe({
+      next: (res) => {
+        alert('User created successfully!');
+        this.selectedUser = null;
+        this.isNewUser = false;
+        this.loadUsers(); // refresh list
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Error creating user');
+      }
+    });
+  } else {
+    // update user
+    this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
+      next: (res) => {
+        alert('User updated successfully!');
+        this.selectedUser = null;
+        this.loadUsers();
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Error updating user');
+      }
+    });
+  }
+}
+
+// Cancel modal
+cancelEdit(): void {
+  this.selectedUser = null;
+  this.isNewUser = false;
+}
 
 }
