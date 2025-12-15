@@ -222,7 +222,7 @@ from flask_migrate import Migrate
 import os
 from app.routes.login_routes import bp_login
 from app.settings.users import users_bp
-
+from app.settings.customfields import customfields_bp 
 
 def create_app():
     # Load environment variables from .env file
@@ -252,6 +252,7 @@ def create_app():
     app.register_blueprint(signup_bp)
     app.register_blueprint(bp_login)
     app.register_blueprint(users_bp)
+    app.register_blueprint(customfields_bp)
 
     return app
 

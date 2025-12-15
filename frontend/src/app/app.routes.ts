@@ -9,7 +9,7 @@ import { settingscomponent } from './pages/settings/settings';
 import { UserComponent } from './settings/user/user.component';
 import { UserSubjectsComponent } from './settings/user-subjects/user-subjects';
 import { CustomFieldGroupsComponent } from './settings/custom-field-groups/custom-field-groups';
-import { CustomFieldsComponent } from './settings/custom-fields/custom-fields';
+import { CustomFieldsComponent } from './settings/custom-fields/custom-fields.component';
 
 export const routes: Routes = [
     { path: '', component: LoginPage }, 

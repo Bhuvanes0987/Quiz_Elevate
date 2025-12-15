@@ -1,0 +1,118 @@
+<div class="page-container">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h2>Questions</h2>
+    <button class="btn-add" (click)="openAddPanel()">+ Add Question</button>
+  </div>
+
+  <!-- Search -->
+  <input type="text" class="search-box" placeholder="Search..." [(ngModel)]="searchText"/>
+
+  <!-- Table Box -->
+  <div class="table-card">
+
+    <table class="theme-table">
+      <thead>
+        <tr>
+          <th>Question</th>
+          <th>Type</th>
+          <th>Class</th>
+          <th>Subject</th>
+          <th>Unit</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let q of filteredQuestions">
+          <td>{{ q.questionText }}</td>
+          <td>{{ q.questionType }}</td>
+          <td>{{ q.class }}</td>
+          <td>{{ q.subject }}</td>
+          <td>{{ q.unit }}</td>
+          <td class="action-buttons">
+            <button class="btn-edit" (click)="openEditPanel(q)">Edit</button>
+            <button class="btn-delete" (click)="deleteQuestion(q.id)">Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredQuestions.length === 0">
+          <td colspan="6" class="empty-row">No questions found.</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-- BACKDROP -->
+<div class="glass-backdrop" *ngIf="showAddPanel" (click)="closePanel()"></div>
+
+<!-- GLASS POPUP -->
+<div class="glass-modal" *ngIf="showAddPanel">
+  <div class="glass-header">
+    <h2>{{ editingQuestion ? "Edit Question" : "Add Question" }}</h2>
+    <button class="close-btn" (click)="closePanel()">✕</button>
+  </div>
+
+  <div class="glass-body">
+
+    <label>Question Text</label>
+    <textarea class="input" [(ngModel)]="form.questionText"></textarea>
+
+    <label>Question Type</label>
+    <select class="input" [(ngModel)]="form.questionType">
+      <option value="choose">Choose (MCQ)</option>
+      <option value="match">Match</option>
+      <option value="fillup">Fill Up</option>
+      <option value="map">Map</option>
+    </select>
+
+    <!-- CHOOSE -->
+    <div *ngIf="form.questionType === 'choose'">
+      <div *ngFor="let opt of form.options; let i = index" class="row">
+        <input class="input small" [(ngModel)]="form.options[i]" placeholder="Option {{ i + 1 }}" />
+        <label class="radio-label">
+          <input type="radio" name="correct" [(ngModel)]="form.correctAnswer" [value]="i" /> Correct
+        </label>
+        <button class="mini-btn" (click)="removeOption(i)">−</button>
+      </div>
+      <button class="add-btn" (click)="addOption()">+ Add Option</button>
+    </div>
+
+    <!-- MATCH -->
+    <div *ngIf="form.questionType === 'match'">
+      <div *ngFor="let p of form.matchPairs; let i = index" class="row">
+        <input class="input small" [(ngModel)]="p.left" placeholder="Left" />
+        <input class="input small" [(ngModel)]="p.right" placeholder="Right" />
+        <button class="mini-btn" (click)="removeMatchPair(i)">−</button>
+      </div>
+      <button class="add-btn" (click)="addMatchPair()">+ Add Pair</button>
+    </div>
+
+    <!-- FILLUP -->
+    <div *ngIf="form.questionType === 'fillup'">
+      <label>Correct Answer</label>
+      <input class="input" [(ngModel)]="form.correctAnswerText" />
+    </div>
+
+    <!-- MAP -->
+    <div *ngIf="form.questionType === 'map'">
+      <label>Upload Map</label>
+      <input type="file" class="input" (change)="onMapUpload($event)" />
+      <div *ngIf="form.mapImageBase64" class="preview">
+        <img [src]="form.mapImageBase64" />
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="save-btn" (click)="saveQuestion()">Save</button>
+      <button class="cancel-btn" (click)="closePanel()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- </div> -->
