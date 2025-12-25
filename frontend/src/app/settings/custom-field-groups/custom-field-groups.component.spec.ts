@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomFieldGroups } from './custom-field-groups';
+import { CustomFieldGroupsComponent } from './custom-field-groups.component';
 
 describe('CustomFieldGroups', () => {
-  let component: CustomFieldGroups;
-  let fixture: ComponentFixture<CustomFieldGroups>;
+  let component: CustomFieldGroupsComponent;
+  let fixture: ComponentFixture<CustomFieldGroupsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CustomFieldGroups]
+      imports: [CustomFieldGroupsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CustomFieldGroups);
+    fixture = TestBed.createComponent(CustomFieldGroupsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

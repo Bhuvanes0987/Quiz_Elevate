@@ -1,0 +1,76 @@
+<div class="page-container">
+
+  <!-- ================= LIST PAGE ================= -->
+  <ng-container *ngIf="pageMode === 'LIST'">
+
+    <div class="page-header">
+      <h2>User Classes</h2>
+      <button class="btn-add" (click)="openAddClass()">
+        + Create Class
+      </button>
+    </div>
+
+    <input
+      class="search-box"
+      placeholder="Search classes..."
+      [(ngModel)]="searchText"
+    />
+
+    <div class="table-card">
+      <table class="theme-table">
+        <thead>
+          <tr>
+            <th>Class Name</th>
+            <th style="width: 120px;">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let cls of filteredClasses">
+            <td>{{ cls.name }}</td>
+
+            <td class="action-cell">
+              <i
+                class="fa-solid fa-trash action-icon delete"
+                title="Delete"
+                (click)="deleteClass(cls.id)">
+              </i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </ng-container>
+
+  <!-- ================= ADD PAGE ================= -->
+  <ng-container *ngIf="pageMode === 'ADD'">
+
+    <div class="page-header">
+      <h2>Add Class</h2>
+    </div>
+
+    <div class="form-card">
+      <label class="form-label">Class Name</label>
+
+      <input
+        type="text"
+        class="form-input"
+        placeholder="Enter class name"
+        [(ngModel)]="classForm.name"
+      />
+
+      <div class="form-actions">
+        <button class="btn-primary" (click)="saveClass()">
+          Save
+        </button>
+
+        <button class="btn-secondary" (click)="goBack()">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

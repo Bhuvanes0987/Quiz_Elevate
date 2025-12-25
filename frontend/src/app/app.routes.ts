@@ -7,8 +7,8 @@ import { PaymentsComponent } from './pages/payments/payments';
 import { ContactUsComponent } from './pages/contact-us/contact-us';
 import { settingscomponent } from './pages/settings/settings';
 import { UserComponent } from './settings/user/user.component';
-import { UserSubjectsComponent } from './settings/user-subjects/user-subjects';
-import { CustomFieldGroupsComponent } from './settings/custom-field-groups/custom-field-groups';
+import { UserSubjectsComponent } from './settings/user-subjects/user-subjects.component';
+import { CustomFieldGroupsComponent } from './settings/custom-field-groups/custom-field-groups.component';
 import { CustomFieldsComponent } from './settings/custom-fields/custom-fields.component';
 
 export const routes: Routes = [

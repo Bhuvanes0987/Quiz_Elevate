@@ -281,7 +281,7 @@ export class CustomFieldsComponent {
     if (this.form.id) {
       // UPDATE
       this.http
-        .put(`http://localhost:8000/questions/${this.form.id}`, payload)
+        .put(`http://localhost:8000/customfields/${this.form.id}`, payload)
         .subscribe(() => {
           alert('Question updated');
           this.closePanel();
@@ -290,7 +290,7 @@ export class CustomFieldsComponent {
     } else {
       // CREATE
       this.http
-        .post('http://localhost:8000/questions', payload)
+        .post('http://localhost:8000/customfields', payload)
         .subscribe(() => {
           alert('Question created');
           this.closePanel();
@@ -303,7 +303,7 @@ export class CustomFieldsComponent {
     if (!confirm('Are you sure you want to delete this question?')) return;
 
     this.http
-      .delete(`http://localhost:8000/questions/${id}`)
+      .delete(`http://localhost:8000/customfields/${id}`)
       .subscribe(() => this.loadQuestions());
   }
 

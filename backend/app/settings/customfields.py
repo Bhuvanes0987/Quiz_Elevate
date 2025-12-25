@@ -163,6 +163,7 @@ import mysql.connector
 import os
 import json
 from dotenv import load_dotenv
+from flask_cors import CORS  
 
 load_dotenv()
 

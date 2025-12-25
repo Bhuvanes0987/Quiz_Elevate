@@ -1,4 +1,3 @@
-/* ============= HEADER ============= */
 .users-header {
   display: flex;
   justify-content: space-between;
@@ -10,24 +9,28 @@
   margin: 0;
   font-size: 22px;
   font-weight: 600;
+  color: #ff7b00;
 }
 
+
 .add-user {
-  background: white;
-  color: black;
+  background: linear-gradient(135deg, #0057ff, #2f80ff);
+  color: white;
   border: none;
-  padding: 8px 14px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(0, 87, 255, 0.35);
+  transition: all 0.2s ease;
 }
 
 .add-user:hover {
-  background: #43a047;
-  
+  background: linear-gradient(135deg, #003fcc, #1f6fff);
+  transform: translateY(-1px);
 }
 
-/* ============= TOP BAR ============= */
 .top-bar {
   display: flex;
   align-items: center;
@@ -36,17 +39,11 @@
 }
 
 .top-bar input[type="text"] {
-  padding: 6px 10px;
+  padding: 10px 14px;
   width: 340px;
-  border: 1px solid #ccc;
   border-radius: 10px;
-  height: 30px;
-}
-
-.primary-only {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  border: none;
+  font-size: 14px;
 }
 
 .actions {
@@ -55,37 +52,11 @@
   gap: 12px;
 }
 
-.actions a {
-  cursor: pointer;
-  color: #007bff;
-  font-size: 14px;
-}
-
-.actions a:hover {
-  text-decoration: underline;
-}
-
-/* ============= FILTERS ============= */
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.filters select {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  min-width: 140px;
-}
-
-/* ============= TABLE ============= */
 .table-wrapper {
   overflow-x: auto;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: white;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
 .user-table {
@@ -93,165 +64,163 @@
   border-collapse: collapse;
 }
 
-.user-table th,
-.user-table td {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  text-align: left;
+.user-table th {
+  background: #f2f2f2;
+  padding: 12px;
   font-size: 14px;
-  color: black;
+  font-weight: 600;
+  color: #444;
 }
 
-.user-table th {
-  background: #f8f8f8;
-  font-weight: 600;
+.user-table td {
+  padding: 12px;
+  font-size: 14px;
+  color: #222;
+  border-bottom: 1px solid #ddd;
 }
 
 .user-table tr:hover {
-  background: #f3f7ff;
+  background: #fff3d4;
 }
 
-
-/* ============= FOOTER ============= */
-.table-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 18px;
-  padding: 8px 4px;
-}
-
-.rows-per-page {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.rows-per-page select {
-  padding: 4px 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .top-bar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .actions {
-    margin-left: 0;
-  }
-
-  .filters {
-    flex-direction: column;
-  }
-}
-/* Common style for all action buttons */
 .action-btn {
   border: none;
-  background-color: transparent;
+  background: transparent;
   cursor: pointer;
-  padding: 5px 8px;
-  margin-right: 5px;
-  border-radius: 4px;
+  padding: 6px 8px;
+  border-radius: 6px;
   font-size: 16px;
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
 
-/* Edit button style */
 .edit-btn {
-  color: #007bff; /* blue */
+  color: #0057ff;
 }
 
 .edit-btn:hover {
-  background-color: #e0f0ff;
+  background: #e6efff;
 }
 
-/* Delete button style */
 .delete-btn {
-  color: #dc3545; /* red */
+  color: #e53935;
 }
 
 .delete-btn:hover {
-  background-color: #ffe0e0;
+  background: #ffe0e0;
 }
-/* edit user */
-
-/* Overlay background */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.45);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
 }
 
-/* Modal box */
 .modal-container {
-  background: white;
-  width: 380px;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0px 5px 20px rgba(0,0,0,0.2);
-  animation: popup 0.3s ease;
+  width: 46%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 26px;
+
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+
+  border: 1px solid rgba(255, 180, 90, 0.6);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+
+  color: #2b2b2b;
+  z-index: 1000;
+  animation: modalFade 0.35s ease;
 }
+
 .modal-container h2 {
-  color: black; /* <-- specifically for heading */
+  margin: 0 0 20px 0;
+  text-align: left;
+  font-size: 22px;
+  font-weight: 600;
+  color: #ff7b00;
 }
 
-
-@keyframes popup {
-  from { transform: scale(0.8); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-/* Input style (same as your UI design) */
-.input-field {
+.input-field,
+select.input-field {
   width: 90%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 12px;
+  height: 40px;
+  padding: 10px 14px;
   font-size: 15px;
+  margin-bottom: 16px;
+
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid #ffb347;
+  border-radius: 10px;
+
+  color: #333;
+  outline: none;
+  transition: all 0.2s ease;
 }
 
-/* Buttons */
+.input-field::placeholder {
+  color: #888;
+}
+
+.input-field:focus,
+select.input-field:focus {
+  border-color: #ff7b00;
+  box-shadow: 0 0 0 2px rgba(255, 123, 0, 0.25);
+}
+
 .save-btn {
   width: 100%;
   padding: 12px;
-  background: linear-gradient(270deg, #ffb347, #ff7b00, #ffb347);
+  margin-top: 6px;
+
+  background: linear-gradient(135deg, #00c853, #7ed957);
   color: white;
   border: none;
-  border-radius: 8px;
-  margin-top: 10px;
-  font-size: 16px;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
+}
+
+.save-btn:hover {
+  filter: brightness(1.05);
 }
 
 .cancel-btn {
   width: 100%;
   padding: 12px;
-  background: #ccc;
-  color: #333;
+  margin-top: 12px;
+
+  background: #e53935;
+  color: white;
   border: none;
-  border-radius: 8px;
-  margin-top: 10px;
-  font-size: 16px;
+  border-radius: 10px;
   cursor: pointer;
 }
-.input-field, select.input-field {
-  width: 100%;
-  height: 40px;
-  padding: 8px 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
+
+.cancel-btn:hover {
+  filter: brightness(1.05);
+}
+
+@keyframes modalFade {
+  from {
+    transform: scale(0.92) translateY(12px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+@media (max-width: 768px) {
+  .modal-container {
+    width: 95%;
+    padding: 22px;
+  }
 }

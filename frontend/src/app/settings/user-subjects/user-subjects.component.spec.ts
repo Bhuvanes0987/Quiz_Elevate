@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UserSubjects } from './user-subjects';
+import { UserSubjects } from './user-subjects.component';
 
 describe('UserSubjects', () => {
   let component: UserSubjects;
