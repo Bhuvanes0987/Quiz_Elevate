@@ -27,11 +27,12 @@
       <tbody>
 
         <tr *ngFor="let q of filteredQuestions">
-          <td>{{ q.questionText }}</td>
-          <td>{{ q.questionType }}</td>
-          <td>{{ q.class }}</td>
-          <td>{{ q.subject }}</td>
-          <td>{{ q.unit }}</td>
+        <td>{{ q.question_text }}</td>
+        <td>{{ q.question_type }}</td>
+        <td>{{ q.class }}</td>
+        <td>{{ q.subject }}</td>
+        <td>{{ q.unit }}</td>
+
           <td class="action-buttons">
             <button class="btn-edit" (click)="openEditPanel(q)">Edit</button>
             <button class="btn-delete" (click)="deleteQuestion(q.id)">Delete</button>

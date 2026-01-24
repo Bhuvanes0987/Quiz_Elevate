@@ -224,6 +224,7 @@ from app.routes.login_routes import bp_login
 from app.settings.users import users_bp
 from app.settings.customfields import customfields_bp 
 from app.settings.user_classes import user_classes_bp 
+from app.settings.customfieldgroups import customfieldgroups_bp
 
 def create_app():
     # Load environment variables from .env file
@@ -255,7 +256,7 @@ def create_app():
     app.register_blueprint(users_bp)
     app.register_blueprint(customfields_bp)
     app.register_blueprint(user_classes_bp)
-
+    app.register_blueprint(customfieldgroups_bp, url_prefix="/api")
 
     return app
 

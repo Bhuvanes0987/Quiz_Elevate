@@ -128,7 +128,6 @@ coverage.xml
 .classpath
 .c9/
 *.launch
-.settings/
 *.sublime-workspace
 .history/
 
@@ -147,6 +146,7 @@ coverage.xml
 *.temp
 /.cache/
 /.angular/
+.angular/
 node_modules/
 dist/
 /coverage/
