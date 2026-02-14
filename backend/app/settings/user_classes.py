@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-user_classes_bp = Blueprint("user_classes_bp", __name__)
+user_classes_bp = Blueprint("user_classes_bp", __name__,url_prefix="/api" )
 
 DB_CONFIG = {
     "host": os.getenv("DB_HOST"),

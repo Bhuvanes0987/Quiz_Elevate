@@ -1,3 +1,80 @@
+<!-- <div class="page-container">
+  <ng-container *ngIf="pageMode === 'LIST'">
+
+    <div class="page-header">
+      <h2>Custom Field Groups</h2>
+      <button class="btn-add" (click)="openAddPage()">+ Create Group</button>
+    </div>
+
+    <input
+      class="search-box"
+      placeholder="Search groups..."
+      [(ngModel)]="searchText"
+    />
+
+    <div class="table-card">
+      <table class="theme-table">
+        <thead>
+          <tr>
+            <th>Custom Field Group</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let group of filteredGroups">
+            <td>{{ group.questionText }}</td>
+            <td>
+              <button class="btn-edit" (click)="openEditPage(group)">Edit</button>
+              <button class="btn-delete" (click)="deleteGroup(group.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </ng-container>
+
+  <ng-container *ngIf="pageMode === 'EDIT'">
+
+    <button class="back-btn" (click)="goBack()">← Back</button>
+
+    <h2>Edit Group</h2>
+
+    <label>Group Name</label>
+    <input class="input" [(ngModel)]="form.questionText"/>
+
+    <div class="section-title">
+      Custom Fields
+      <button class="add-btn" (click)="addField()">+ Add Field</button>
+    </div>
+
+    <div class="field-row" *ngFor="let field of form.fields; let i = index">
+      <span>{{ field.name }}</span>
+
+    <div class="field-actions">
+  <i class="fa-solid fa-plus action-icon add"
+     (click)="addField()"></i> -->
+
+  <!-- <i class="fa-solid fa-pencil action-icon edit"
+     (click)="editField(i)"></i>
+
+  <i class="fa-solid fa-trash action-icon delete"
+     (click)="removeField(i)"></i>
+</div>
+
+    </div>
+
+    <div class="actions">
+      <button class="save-btn" (click)="updateGroup()">Update</button>
+      <button class="cancel-btn" (click)="goBack()">Cancel</button>
+    </div>
+
+  </ng-container>
+
+</div> --> 
+
+
 <div class="page-container">
 
   <!-- ================= LIST PAGE ================= -->
@@ -28,7 +105,7 @@
             <td>{{ group.questionText }}</td>
             <td>
               <button class="btn-edit" (click)="openEditPage(group)">Edit</button>
-              <!-- <button class="btn-delete" (click)="deleteQuestion(group.id)">Delete</button> -->
+              <button class="btn-delete" (click)="deleteGroup(group.id)">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -55,22 +132,56 @@
     <div class="field-row" *ngFor="let field of form.fields; let i = index">
       <span>{{ field.name }}</span>
 
-    <div class="field-actions">
-  <i class="fa-solid fa-plus action-icon add"
-     (click)="addField()"></i>
+      <div class="field-actions">
+        <!-- Pencil icon triggers modal -->
+        <i class="fa-solid fa-pencil action-icon edit"
+           (click)="editField(i)"></i>
 
-  <i class="fa-solid fa-pencil action-icon edit"
-     (click)="editField(i)"></i>
-
-  <i class="fa-solid fa-trash action-icon delete"
-     (click)="removeField(i)"></i>
-</div>
-
+        <i class="fa-solid fa-trash action-icon delete"
+           (click)="removeField(i)"></i>
+      </div>
     </div>
 
     <div class="actions">
       <button class="save-btn" (click)="updateGroup()">Update</button>
       <button class="cancel-btn" (click)="goBack()">Cancel</button>
+    </div>
+
+    <!-- ======== EDIT FIELD MODAL ======== -->
+    <div *ngIf="editingFieldData" class="modal-overlay">
+      <div class="modal-content">
+        <h3>Edit Field</h3>
+
+        <label>Field Name</label>
+        <input [(ngModel)]="editingFieldData.name" class="input" />
+
+        <div class="questions-section">
+          <h4>Custom Questions</h4>
+          <button class="btn-add" (click)="addQuestion()">+ Add Question</button>
+
+          <div *ngFor="let q of editingFieldData.questions; let qi = index" class="question-row">
+            <label>Question Text</label>
+            <textarea [(ngModel)]="q.questionText" rows="2" class="input"></textarea>
+
+            <label>Question Type</label>
+            <select [(ngModel)]="q.questionType" class="input">
+              <option>Fill Up</option>
+              <option>Multiple Choice</option>
+              <!-- add other types as needed -->
+            </select>
+
+            <label>Correct Answer</label>
+            <input [(ngModel)]="q.correctAnswer" class="input" />
+
+            <button class="btn-delete" (click)="removeQuestion(qi)">Delete Question</button>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-save" (click)="saveFieldEdit()">Save</button>
+          <button class="btn-cancel" (click)="cancelFieldEdit()">Cancel</button>
+        </div>
+      </div>
     </div>
 
   </ng-container>

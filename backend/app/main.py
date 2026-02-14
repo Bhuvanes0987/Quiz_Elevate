@@ -210,6 +210,7 @@
 from flask import Flask
 from flask_cors import CORS
 from dotenv import load_dotenv
+from .routes.auth_routes import bp as auth_bp
 from .config import Config
 from .db import db
 from .models import *
@@ -246,6 +247,14 @@ def create_app():
     db.init_app(app)
     Migrate(app, db)
 
+
+    @app.route("/health", methods=["GET"])
+    def health_check():
+        return {
+            "status": "UP",
+            "message": "Backend is running successfully"
+        }, 200
+
     # Register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(test_bp)
@@ -256,7 +265,7 @@ def create_app():
     app.register_blueprint(users_bp)
     app.register_blueprint(customfields_bp)
     app.register_blueprint(user_classes_bp)
-    app.register_blueprint(customfieldgroups_bp, url_prefix="/api")
+    app.register_blueprint(customfieldgroups_bp)
 
     return app
 

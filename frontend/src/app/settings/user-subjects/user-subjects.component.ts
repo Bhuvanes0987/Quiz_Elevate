@@ -98,7 +98,8 @@ export class UserSubjectsComponent implements OnInit {
     name: ''
   };
 
-  private API_URL = 'http://localhost:8000/user-classes';
+private API_URL = 'http://localhost:8000/api/user-classes';
+
 
   constructor(private http: HttpClient) {}
 

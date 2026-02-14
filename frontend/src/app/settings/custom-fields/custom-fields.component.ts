@@ -202,7 +202,7 @@ export class CustomFieldsComponent {
     this.http.get<any>('http://localhost:8000/customfields').subscribe(res => {
       this.questions = res?.questions ?? [];
     });
-  }
+}
 
   /* =====================
      SEARCH FILTER
