@@ -28,20 +28,33 @@ def get_classes():
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("""
-            SELECT id, class_name, is_active,
-                   created_by, updated_by,
-                   created_at, updated_at
-            FROM user_classes
-            WHERE is_active = 1
-            ORDER BY id DESC
+            SELECT 
+                uc.id,
+                uc.class_name,
+                uc.is_active,
+                GROUP_CONCAT(cfg.group_name) AS subjects,
+                GROUP_CONCAT(cfg.id) AS group_ids
+            FROM user_classes uc
+            LEFT JOIN user_class_groups ucg 
+                ON uc.id = ucg.class_id
+            LEFT JOIN custom_field_groups cfg
+                ON ucg.group_id = cfg.id
+            WHERE uc.is_active = 1
+            GROUP BY uc.id
+            ORDER BY uc.id DESC
         """)
 
         classes = cursor.fetchall()
-        db.close()
 
+        for c in classes:
+            c["subjects"] = c["subjects"].split(",") if c["subjects"] else []
+            c["group_ids"] = list(map(int, c["group_ids"].split(","))) if c["group_ids"] else []
+            c["status"] = "Active" if c["is_active"] == 1 else "Inactive"
+
+        db.close()
         return jsonify({"success": True, "classes": classes})
 
-    except Exception as e:
+    except Exception as e: 
         return jsonify({"success": False, "message": str(e)}), 500
 
 
@@ -78,26 +91,37 @@ def get_class(class_id):
 def add_class():
     try:
         data = request.json
+        group_ids = data.get("groupIds", [])
 
-        if not data.get("className"):
-            return jsonify({"success": False, "message": "Class name is required"}), 400
+        is_active = 1 if data.get("status") == "Active" else 0
 
         db = get_db()
         cursor = db.cursor()
 
+        # 1️⃣ Insert class
         cursor.execute("""
-            INSERT INTO user_classes
-            (class_name, created_by)
-            VALUES (%s, %s)
+            INSERT INTO user_classes 
+            (class_name, is_active, created_by)
+            VALUES (%s, %s, %s)
         """, (
             data["className"],
+            is_active,
             data.get("createdBy", "system")
         ))
+
+        class_id = cursor.lastrowid
+
+        # 2️⃣ Insert mapping records
+        for group_id in group_ids:
+            cursor.execute("""
+                INSERT INTO user_class_groups (class_id, group_id)
+                VALUES (%s, %s)
+            """, (class_id, group_id))
 
         db.commit()
         db.close()
 
-        return jsonify({"success": True, "message": "Class created successfully"})
+        return jsonify({"success": True})
 
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
@@ -110,17 +134,22 @@ def add_class():
 def update_class(class_id):
     try:
         data = request.json
+        group_ids = data.get("groupIds", [])
+
         db = get_db()
         cursor = db.cursor()
 
+        # 1️⃣ Check if class exists
         cursor.execute(
-            "SELECT id FROM user_classes WHERE id = %s",
+            "SELECT id FROM user_classes WHERE id = %s AND is_active = 1",
             (class_id,)
         )
 
         if cursor.fetchone() is None:
+            db.close()
             return jsonify({"success": False, "message": "Class not found"}), 404
 
+        # 2️⃣ Update class name
         cursor.execute("""
             UPDATE user_classes SET
                 class_name = %s,
@@ -132,13 +161,33 @@ def update_class(class_id):
             class_id
         ))
 
+        # 3️⃣ Delete old group mappings
+        cursor.execute("""
+            DELETE FROM user_class_groups
+            WHERE class_id = %s
+        """, (class_id,))
+
+        # 4️⃣ Insert new group mappings
+        for group_id in group_ids:
+            cursor.execute("""
+                INSERT INTO user_class_groups (class_id, group_id)
+                VALUES (%s, %s)
+            """, (class_id, group_id))
+
         db.commit()
         db.close()
 
-        return jsonify({"success": True, "message": "Class updated successfully"})
+        return jsonify({
+            "success": True,
+            "message": "Class updated successfully"
+        })
 
     except Exception as e:
-        return jsonify({"success": False, "message": str(e)}), 500
+        return jsonify({
+            "success": False,
+            "message": str(e)
+        }), 500
+
 
 
 # -----------------------------------

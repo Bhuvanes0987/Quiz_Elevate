@@ -21,15 +21,25 @@
         <thead>
           <tr>
             <th>Class Name</th>
-            <th style="width: 120px;">Actions</th>
+            <th>Custom Field Group</th>
+            <th>Status</th>
+            <th style="width: 170px;">Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let cls of filteredClasses">
+          <tr *ngFor="let cls of filteredClasses()">
             <td>{{ cls.name }}</td>
+            <td>{{ cls.groupNames.join(', ') || '-' }}</td>
+            <td>{{ cls.status }}</td>
 
             <td class="action-cell">
+              <i
+                class="fa-solid fa-pen action-icon edit"
+                title="Edit"
+                (click)="openEditClass(cls)">
+              </i>
+
               <i
                 class="fa-solid fa-trash action-icon delete"
                 title="Delete"
@@ -43,32 +53,99 @@
 
   </ng-container>
 
-  <!-- ================= ADD PAGE ================= -->
+
+
+  <!-- ================= ADD / EDIT PAGE ================= -->
   <ng-container *ngIf="pageMode === 'ADD'">
 
     <div class="page-header">
-      <h2>Add Class</h2>
+      <h2>{{ isEditMode ? 'Edit Class' : 'Add Class' }}</h2>
     </div>
 
     <div class="form-card">
-      <label class="form-label">Class Name</label>
 
-      <input
-        type="text"
-        class="form-input"
-        placeholder="Enter class name"
-        [(ngModel)]="classForm.name"
-      />
+      <!-- Class Name -->
+      <div class="form-group">
+        <label class="form-label">Class Name</label>
+        <input
+          type="text"
+          class="form-input"
+          placeholder="Enter class name"
+          [(ngModel)]="classForm.name"
+        />
+      </div>
 
+
+      <!-- Subjects Dropdown (Styled Like Status) -->
+      <div class="form-group">
+        <label class="form-label">Select Subjects</label>
+
+        <div class="form-dropdown-wrapper">
+
+          <!-- Display Box -->
+          <div
+            class="form-input dropdown-display"
+            (click)="toggleDropdown()">
+
+            <span>
+              {{ getSelectedNames() || 'Select Subjects' }}
+            </span>
+
+            <span class="dropdown-arrow">▼</span>
+          </div>
+
+          <!-- Dropdown Panel -->
+          <div
+            class="dropdown-menu"
+            *ngIf="isDropdownOpen">
+
+            <div
+              class="dropdown-option"
+              *ngFor="let g of groups">
+
+              <input
+                type="checkbox"
+                [checked]="classForm.groupIds.includes(g.id)"
+                (change)="onGroupChange($event, g.id)"
+              />
+
+              <span>{{ g.name }}</span>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+
+
+      <!-- Status Dropdown -->
+      <div class="form-group">
+        <label class="form-label">Status</label>
+        <select
+          class="form-input"
+          [(ngModel)]="classForm.status">
+
+          <option value="">Select Status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+
+        </select>
+      </div>
+
+
+      <!-- Buttons -->
       <div class="form-actions">
         <button class="btn-primary" (click)="saveClass()">
-          Save
+          {{ isEditMode ? 'Update' : 'Save' }}
         </button>
 
         <button class="btn-secondary" (click)="goBack()">
           Cancel
         </button>
       </div>
+
     </div>
 
   </ng-container>
