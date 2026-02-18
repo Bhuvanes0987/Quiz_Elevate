@@ -600,3 +600,21 @@ label {
   background: #ff7b00;
   color: #ffffff;
 }
+.input-small {
+  padding: 6px;
+  font-size: 14px;
+  width: 200px;
+}
+.action-icon {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 8px;
+}
+
+.action-icon.add {
+  color: #28a745;   /* Green */
+}
+
+.action-icon.add:hover {
+  color: #218838;   /* Darker green on hover */
+}

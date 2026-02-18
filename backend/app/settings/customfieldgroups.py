@@ -18,8 +18,9 @@ DB_CONFIG = {
 def get_db():
     return mysql.connector.connect(**DB_CONFIG)
 
+
 # -----------------------------------
-# GET ALL CUSTOM FIELD GROUPS
+# GET ALL CUSTOM FIELD GROUPS (FIXED)
 # -----------------------------------
 @customfieldgroups_bp.get("/custom-field-groups")
 def get_groups():
@@ -27,24 +28,45 @@ def get_groups():
         db = get_db()
         cursor = db.cursor(dictionary=True)
 
-        cursor.execute("""
-            SELECT id, group_name
-            FROM custom_field_groups
-            WHERE is_active = 1
-            ORDER BY id DESC
-        """)
+        query = """
+        SELECT 
+            g.id,
+            g.group_name,
+            GROUP_CONCAT(DISTINCT c.class_name SEPARATOR ', ') AS classNames,
+            GROUP_CONCAT(DISTINCT c.id) AS classIds
+        FROM custom_field_groups g
+        LEFT JOIN user_class_groups ucg ON ucg.group_id = g.id
+        LEFT JOIN user_classes c ON c.id = ucg.class_id
+        WHERE g.is_active = 1
+        GROUP BY g.id
+        ORDER BY g.id DESC
+        """
+
+        cursor.execute(query)
         groups = cursor.fetchall()
 
         for group in groups:
+
+            # Fetch fields
             cursor.execute("""
                 SELECT id, field_name AS name
                 FROM custom_fields
                 WHERE group_id = %s
             """, (group["id"],))
             group["fields"] = cursor.fetchall()
+
             group["questionText"] = group.pop("group_name")
 
+            # Convert classIds string → array
+            if group["classIds"]:
+                group["classIds"] = [
+                    int(x) for x in group["classIds"].split(",")
+                ]
+            else:
+                group["classIds"] = []
+
         db.close()
+
         return jsonify({"success": True, "groups": groups})
 
     except Exception as e:
@@ -70,12 +92,22 @@ def get_group(group_id):
         if not group:
             return jsonify({"success": False, "message": "Group not found"}), 404
 
+        # Fetch fields
         cursor.execute("""
             SELECT id, field_name AS name
             FROM custom_fields
             WHERE group_id = %s
         """, (group_id,))
         fields = cursor.fetchall()
+
+        # Fetch mapped class IDs
+        cursor.execute("""
+            SELECT class_id
+            FROM user_class_groups
+            WHERE group_id = %s
+        """, (group_id,))
+        class_rows = cursor.fetchall()
+        class_ids = [row["class_id"] for row in class_rows]
 
         db.close()
 
@@ -84,7 +116,8 @@ def get_group(group_id):
             "group": {
                 "id": group["id"],
                 "questionText": group["group_name"],
-                "fields": fields
+                "fields": fields,
+                "classIds": class_ids
             }
         })
 
@@ -99,7 +132,6 @@ def get_group(group_id):
 def create_group():
     try:
         data = request.json
-        print("🔥 Incoming POST data:", data)
 
         if not data.get("questionText"):
             return jsonify({"success": False, "message": "Group name is required"}), 400
@@ -107,18 +139,27 @@ def create_group():
         db = get_db()
         cursor = db.cursor()
 
+        # Insert group
         cursor.execute("""
-            INSERT INTO custom_field_groups (group_name, created_by)
-            VALUES (%s, %s)
+            INSERT INTO custom_field_groups (group_name, created_by, is_active)
+            VALUES (%s, %s, 1)
         """, (data["questionText"], "system"))
 
         group_id = cursor.lastrowid
 
+        # Insert fields
         for field in data.get("fields", []):
             cursor.execute("""
                 INSERT INTO custom_fields (group_id, field_name)
                 VALUES (%s, %s)
             """, (group_id, field["name"]))
+
+        # Insert class mappings
+        for class_id in data.get("classIds", []):
+            cursor.execute("""
+                INSERT INTO user_class_groups (class_id, group_id)
+                VALUES (%s, %s)
+            """, (class_id, group_id))
 
         db.commit()
         db.close()
@@ -126,7 +167,6 @@ def create_group():
         return jsonify({"success": True, "message": "Group created successfully"})
 
     except Exception as e:
-        print("🔥 ERROR:", str(e))
         return jsonify({"success": False, "message": str(e)}), 500
 
 
@@ -140,29 +180,32 @@ def update_group(group_id):
         db = get_db()
         cursor = db.cursor()
 
-        cursor.execute("""
-            SELECT id FROM custom_field_groups
-            WHERE id = %s AND is_active = 1
-        """, (group_id,))
-        if cursor.fetchone() is None:
-            return jsonify({"success": False, "message": "Group not found"}), 404
-
+        # Update group name
         cursor.execute("""
             UPDATE custom_field_groups
             SET group_name = %s, updated_by = %s
             WHERE id = %s
         """, (data["questionText"], "system", group_id))
 
-        cursor.execute("""
-            DELETE FROM custom_fields
-            WHERE group_id = %s
-        """, (group_id,))
+        # Delete old fields
+        cursor.execute("DELETE FROM custom_fields WHERE group_id = %s", (group_id,))
 
+        # Insert new fields
         for field in data.get("fields", []):
             cursor.execute("""
                 INSERT INTO custom_fields (group_id, field_name)
                 VALUES (%s, %s)
             """, (group_id, field["name"]))
+
+        # Delete old mappings
+        cursor.execute("DELETE FROM user_class_groups WHERE group_id = %s", (group_id,))
+
+        # Insert new mappings
+        for class_id in data.get("classIds", []):
+            cursor.execute("""
+                INSERT INTO user_class_groups (class_id, group_id)
+                VALUES (%s, %s)
+            """, (class_id, group_id))
 
         db.commit()
         db.close()
@@ -194,35 +237,4 @@ def delete_group(group_id):
         return jsonify({"success": True, "message": "Group deleted successfully"})
 
     except Exception as e:
-        return jsonify({"success": False, "message": str(e)}), 500
-    
-    
-@customfieldgroups_bp.post("/custom-field-groups")
-def add_group():
-    data = request.json
-    print("🔥 Incoming POST data:", data)
-
-    try:
-        db = get_db()
-        cursor = db.cursor()
-
-        # Insert into customfields table
-        cursor.execute("""
-            INSERT INTO customfields
-            (question_text, question_type, answer_data, created_by)
-            VALUES (%s, %s, %s, %s)
-        """, (
-            data["questionText"],
-            "custom_group",   # mark type as group
-            json.dumps({"fields": data.get("fields", [])}),
-            "system"
-        ))
-
-        db.commit()
-        db.close()
-
-        return jsonify({"success": True, "message": "Group created successfully"})
-
-    except Exception as e:
-        print("🔥 ERROR:", str(e))
         return jsonify({"success": False, "message": str(e)}), 500
